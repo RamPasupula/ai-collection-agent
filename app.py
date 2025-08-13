@@ -21,13 +21,21 @@ import uvicorn
 
 load_dotenv()
 css = """
+footer { 
+    display: none !important; 
+}
+
 #twilio_summary {
     max-height: 200px;  /* approx 10 lines */
     overflow-y: auto;
     white-space: pre-wrap;
     border: 1px solid #ccc;
-    padding: 8px;
-    footer {display: none !important};
+    padding: 8px;   
+}
+
+.qa-pairs .table-wrap {
+    min-height: 250px;
+    max-height: 170px;
 }
 """
 twilio_data = []  # assume this is populated elsewhere
@@ -331,7 +339,7 @@ def gradio_report(show_graph: bool = False, group_by: str = "best_call_day", cha
     # Markdown heading + small summary
     report_md = f"# Number of customers: {count}\n\n"
     # report_md += f"Columns: {', '.join(df.columns.tolist())}\n\n"
-    report_md += f"Showing first 10 rows below."
+    #report_md += f"Showing first 10 rows below."
 
     # Return Markdown text, DataFrame (for table), HTML download link, and Plotly figure (or None)
     return report_md, df, download_link, fig
@@ -351,16 +359,16 @@ def update_report(show_graph, group_by, chart_type):
         return report_text, df, csv_html, gr.update(visible=False)
 
 
-def update_twilio_report(show_graph, group_by, chart_type):
-    report_text, df, csv_html, graph = gradio_twilio_report(
+def update_twilio_report(show_graph: bool = False, group_by: str = "status", chart_type: str = "bar"):
+    report_text, df = gradio_twilio_report(
         show_graph=show_graph,
         group_by=group_by,
         chart_type=chart_type
     )
     if show_graph:
-        return report_text, df, csv_html, gr.update(value=graph, visible=True)
+        return report_text, df    #, csv_html, gr.update(value=graph, visible=True)
     else:
-        return report_text, df, csv_html, gr.update(visible=False)
+        return report_text, df    #, csv_html, gr.update(visible=False)
 
 
 def gradio_twilio_report(show_graph: bool = False, group_by: str = "status", chart_type: str = "bar"):
@@ -381,12 +389,13 @@ def gradio_twilio_report(show_graph: bool = False, group_by: str = "status", cha
     # CSV Download link
     buf = StringIO()
     df.to_csv(buf, index=False)
-    b64 = base64.b64encode(buf.getvalue().encode()).decode()
-    download_link = f'<a href="data:file/csv;base64,{b64}" download="twilio_report.csv">📥 Download CSV</a>'
+    #b64 = base64.b64encode(buf.getvalue().encode()).decode()
+    #download_link = f'<a href="data:file/csv;base64,{b64}" download="twilio_report.csv">📥 Download CSV</a>'
 
     # Valid grouping
-    possible_group_cols = [c for c in ["status", "to", "from",
-                                       "duration", "price", "start_time"] if c in df.columns]
+    possible_group_cols =[]
+    #possible_group_cols = [c for c in ["status", "to", "from",
+    #                                   "duration", "price", "start_time"] if c in df.columns]
     if show_graph and group_by not in possible_group_cols:
         group_by = possible_group_cols[0] if possible_group_cols else None
 
@@ -428,11 +437,11 @@ def gradio_twilio_report(show_graph: bool = False, group_by: str = "status", cha
             logger.exception("Error generating Twilio graph")
             fig = None
 
-    report_md = f"# Number of calls: {count}\n\nShowing first 10 rows below."
-    return report_md, df, download_link, fig
+    report_md = f"### Number of calls: {count}"
+    return report_md, df
 
 
-with gr.Blocks(title="Collections Caller", analytics_enabled=False,   css= css) as demo:
+with gr.Blocks(title="Collections Caller", analytics_enabled=False, css= css) as demo:
     with gr.Tabs():
         with gr.TabItem("Chat"):
             gr.ChatInterface(
@@ -471,31 +480,28 @@ with gr.Blocks(title="Collections Caller", analytics_enabled=False,   css= css) 
             )
 
         with gr.TabItem("Twilio Report"):
-            show_graph_toggle_t = gr.Checkbox(label="Show Graph", value=False)
-            group_by_dropdown_t = gr.Dropdown(
-                choices=["status", "to", "from",
-                         "duration", "price", "start_time"],
-                value="status",
-                label="Group / Aggregate by"
-            )
-            chart_type_dropdown_t = gr.Dropdown(
-                choices=["bar", "pie", "histogram", "box"],
-                value="bar",
-                label="Chart type"
-            )
+            # show_graph_toggle_t = gr.Checkbox(label="Show Graph", value=False)
+            # group_by_dropdown_t = gr.Dropdown(
+            #     choices=["status", "to", "from",
+            #              "duration", "price", "start_time"],
+            #     value="status",
+            #     label="Group / Aggregate by"
+            # )
+            # chart_type_dropdown_t = gr.Dropdown(
+            #     choices=["bar", "pie", "histogram", "box"],
+            #     value="bar",
+            #     label="Chart type"
+            # )
             generate_btn_t = gr.Button("Generate Twilio Report")
 
             report_text_t = gr.Markdown()
-            table_t = gr.DataFrame()
-            download_link_output_t = gr.HTML()
-            graph_plot_t = gr.Plot(visible=False)
-
+            table_t = gr.DataFrame(elem_classes="qa-pairs")    
+            #download_link_output_t = gr.HTML()
+            #graph_plot_t = gr.Plot(visible=False)
             generate_btn_t.click(
                 fn=update_twilio_report,
-                inputs=[show_graph_toggle_t,
-                        group_by_dropdown_t, chart_type_dropdown_t],
-                outputs=[report_text_t, table_t,
-                         download_link_output_t, graph_plot_t]
+                #inputs=[show_graph_toggle_t, group_by_dropdown_t, chart_type_dropdown_t],
+                outputs=[report_text_t, table_t]
             )
             summarize_btn = gr.Button("Summarize Calls")
             summary_output = gr.Markdown(

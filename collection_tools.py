@@ -407,7 +407,7 @@ def call_customer_by_name(name: str, message: str = "This is a reminder about yo
         return f"No customer found with name '{name}'."
 
     phone = result[0]
-    print(f"Calling {name} at {phone}...")
+    logging.info(f"Calling {name} at {phone}...")
     return call_customer(name=name, to_number=phone, message=message)
 
 

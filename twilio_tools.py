@@ -7,23 +7,28 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
-TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
-TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
-TWILIO_FROM = os.getenv("TWILIO_FROM")
 logger = logging.getLogger(__name__)
 
 
 def call_customer(name: str, to_number: str, message: str) -> str:
     """Initiate a call to the customer using Twilio."""
+    
+    TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+    TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+    TWILIO_FROM = os.getenv("TWILIO_FROM")
     if not TWILIO_ACCOUNT_SID or not TWILIO_AUTH_TOKEN or not TWILIO_FROM:
         return "Twilio credentials not configured. Please set TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, and TWILIO_FROM."
 
     client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-    call = client.calls.create(
-        twiml=f"<Response><Say>{message}</Say></Response>",
-        to=to_number,
-        from_=TWILIO_FROM,
-    )
+    try:
+        call = client.calls.create(
+            twiml=f"<Response><Say>{message}</Say></Response>",
+            to=to_number,
+            from_=TWILIO_FROM,
+        )
+    except Exception as e:
+        logger.error(f"Error initiating call: {e}")
+        return f"Failed to initiate call to {name} at {to_number}. Error: {e}"    
     return f"Call initiated to {name} at {to_number}. Call SID: {call.sid}"
 
 
@@ -31,6 +36,10 @@ def get_twilio_stats() -> list[dict]:
     """
     Returns Twilio call statistics as a list of dicts.
     """
+    
+    TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+    TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+    
     try:
         client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
         calls = client.calls.list()
