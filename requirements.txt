@@ -1,0 +1,9 @@
+google-adk
+litellm
+twilio
+sqlite4
+aiosqlite
+asyncio
+gradio
+python-dotenv
+logging

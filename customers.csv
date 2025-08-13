@@ -1,0 +1,20 @@
+﻿name,phone,missed_payment,best_call_start,best_call_end,best_call_day,timezone,dst_observed,how_long,State,last_contact_date,preferred_contact_method,call_attempts_count,successful_contact_rate,amount_due,days_past_due,risk_score
+Amy Gonzales,19000000000,1,15:30,22:15,Saturday,America/Los_Angeles,0,88,New Jersey,5/8/25,phone,15,0.37,4775.1,347,16
+Venkat,17746410174,1,15:45,8:45,Tuesday,America/New_York,0,85,New Jersey,15/2/25,phone,0,0.71,2024.37,115,3
+Ram,19048555482,1,18:00,22:30,Monday,America/New_York,0,76,New Jersey,4/1/25,sms,3,0.48,259.3,332,90
+Prasad,19000000000,1,13:45,18:15,Tuesday,America/New_York,1,42,New Jersey,11/2/25,email,5,0.09,1647.31,175,24
+Crystal Benton,19000000000,0,14:45,16:30,Friday,America/New_York,1,45,New Jersey,14/6/25,sms,4,0.08,3878.17,178,76
+Diana Hull,19000000000,1,18:45,9:00,Friday,America/New_York,0,31,New Jersey,10/5/25,sms,8,0.79,1175.79,311,8
+Brian Hunt,19000000000,0,13:45,9:45,Saturday,America/New_York,1,60,New Jersey,31/1/25,sms,19,0.82,1885.31,355,7
+Jennifer Alvarez,19000000000,0,18:00,23:45,Weekend,America/New_York,0,81,New Jersey,19/1/25,sms,11,0.62,1432.46,115,82
+Courtney Hinton,19000000000,1,15:45,17:00,Monday,America/New_York,1,4,New Jersey,17/6/25,phone,17,0.02,2725.45,270,49
+Ernest Gordon,19000000000,1,20:00,22:30,Saturday,America/New_York,0,76,New Jersey,3/8/25,phone,17,0.14,2577.79,91,38
+Anne Weaver,19000000000,0,12:15,8:15,Wednesday,America/New_York,0,65,New Jersey,13/4/25,phone,18,0.74,2739.66,237,46
+William Rodriguez,19000000000,1,18:15,9:00,Thursday,America/New_York,1,44,New Jersey,12/4/25,email,2,0.48,4408.56,288,9
+David Cooper,19000000000,0,17:30,18:15,Friday,America/New_York,0,66,New Jersey,20/4/25,phone,8,0.17,72.35,321,52
+Kristen Stanley,19000000000,1,8:00,9:00,Thursday,America/New_York,0,33,New Jersey,30/6/25,sms,8,0.15,3569.48,118,66
+Anna Shields,19000000000,1,17:45,11:45,Saturday,America/New_York,1,19,New York,1/1/25,phone,3,0.59,2290.76,177,81
+Kenneth Mejia,19000000000,0,13:00,22:30,Sunday,America/New_York,0,35,New York,2/8/25,phone,20,0.44,361.55,225,41
+Erin Martin,19000000000,0,14:30,22:15,Saturday,America/New_York,1,4,New York,28/5/25,phone,7,0.02,4219.24,41,61
+Sabrina Watkins,19000000000,1,19:15,14:30,Monday,America/New_York,0,5,New York,27/2/25,email,12,0.56,3210.72,252,14
+Jeffrey Morris,19000000000,1,11:00,12:00,Monday,America/New_York,1,68,New York,23/1/25,sms,11,0.68,3737.89,218,20
