@@ -67,7 +67,6 @@ async def ask_agent(user_input: str) -> str:
             for tool_call in event.tool_calls:
                 tool_name = tool_call.name
                 tool_args = tool_call.arguments or {}
-
                 tool_func = next((t for t in root_agent.tools if t.__name__ == tool_name), None)
                 if tool_func:
                     try:
