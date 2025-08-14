@@ -7,3 +7,4 @@ asyncio
 gradio
 python-dotenv
 logging
+tabulate
