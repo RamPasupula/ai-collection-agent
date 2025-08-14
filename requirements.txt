@@ -8,3 +8,5 @@ gradio
 python-dotenv
 logging
 tabulate
+pandas
+plotly
